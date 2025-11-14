@@ -9,10 +9,16 @@
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script:700);
 @import url(https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700,400italic);
 
+/* Reset global styles that interfere with our layout */
 body {
 	overflow-x: hidden;
 	font: 400 16px/1.8 'Crimson Text', serif;
 	color: #666;
+	margin: 0;
+	display: block !important; /* Override Vite's default flex */
+	place-items: unset !important;
+	min-width: unset !important;
+	min-height: unset !important;
 }
 
 img {
@@ -430,6 +436,9 @@ textarea.form-control {
 	position: relative;
 	background: #fff;
 	padding: 120px 0;
+	width: 100%;
+	display: block;
+	box-sizing: border-box;
 }
 
 .module-gray {
@@ -590,13 +599,90 @@ textarea.form-control {
 }
 
 /* ---------------------------------------------- /*
+ * Bootstrap-like Grid System
+/* ---------------------------------------------- */
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
+}
+
+.row::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.col-sm-4,
+.col-sm-6,
+.col-sm-8 {
+	position: relative;
+	padding-right: 15px;
+	padding-left: 15px;
+	flex: 0 0 auto;
+	box-sizing: border-box;
+}
+
+.col-sm-4 {
+	width: 33.333333%;
+	flex-basis: 33.333333%;
+}
+
+.col-sm-6 {
+	width: 50%;
+	flex-basis: 50%;
+}
+
+.col-sm-8 {
+	width: 66.666667%;
+	flex-basis: 66.666667%;
+}
+
+.col-sm-offset-3 {
+	margin-left: 25%;
+}
+
+.container {
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 1200px;
+	box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+	.col-sm-4,
+	.col-sm-6,
+	.col-sm-8 {
+		width: 100%;
+		flex-basis: 100%;
+	}
+	
+	.col-sm-offset-3 {
+		margin-left: 0;
+	}
+}
+
+/* ---------------------------------------------- /*
  * Menu
 /* ---------------------------------------------- */
+
+/* Debug styles - temporary to see columns */
+.col-sm-6 {
+	/* border: 1px solid rgba(255, 0, 0, 0.2); */
+	min-height: 50px;
+}
 
 .menu {
 	border-bottom: 1px dotted #DDD;
 	padding: 0 0 10px;
 	margin: 0 0 20px;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .menu-classic img {
@@ -620,14 +706,14 @@ textarea.form-control {
 
 .menu-label {
 	background: #fae7d7;
-	position: relative;
+	position: absolute;
 	display: inline-block;
 	padding: 2px 10px 0px 10px;
 	font-family: 'Crimson Text', serif;
 	letter-spacing: 1px;
 	font-style: italic;
 	font-size: 13px;
-	float: right;
+	right: 0;
 	top: 5px;
 }
 
@@ -1285,7 +1371,10 @@ position: absolute;
 	}
 
 	.menu-label {
-		float: none;
+		position: static;
+		display: block;
+		margin: 5px auto 0;
+		text-align: center;
 	}
 
 	.mouse-icon {
